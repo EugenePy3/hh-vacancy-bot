@@ -49,8 +49,6 @@ async def send_vacancies():
         try:
             vacancy_url = vacancy.get('url', '#') or '#'
             response_link = vacancy.get('response_link', '#') or '#'
-            phone_number = vacancy.get('phone_number', 'не указан')
-            email_contact = vacancy.get('email_contact', 'не указан')
 
             text = (f"💼 {hbold(vacancy['title'])}\n"
                     f"⭐ <b>Присвоенный балл:</b> {vacancy['score']}\n"
@@ -61,8 +59,6 @@ async def send_vacancies():
                     f"🕒 <b>Рабочие часы:</b> {vacancy['working_hours']}\n"
                     f"🧑‍💻 <b>Формат работы:</b> {vacancy['work_formats']}\n"
                     f"🗓 <b>Дата публикации:</b> {vacancy['date']}\n"
-                    f"📞 <b>Позвонить:</b> {phone_number}\n"
-                    f"✉️ <b>Написать на почту:</b> {email_contact}\n"
                     f"🔗 {hlink('Ссылка на вакансию', vacancy_url)}\n"
                     f"✉️ {hlink('Откликнуться на вакансию', response_link)}\n")
 

@@ -38,8 +38,6 @@ def parse_vacancy(driver, url, auth):
 
         # Значения по умолчанию
         response_link = 'Ссылка на отклик вакансии не найдена.'
-        phone_number = 'телефон не указан'
-        email_contact = 'email не указан'
 
         if auth.is_authenticated:  # Проверяем, авторизованы ли мы
             # logging.info(f'Авторизован: {auth.is_authenticated}')
@@ -51,50 +49,6 @@ def parse_vacancy(driver, url, auth):
                 response_link = response_element[0].get_attribute("href")
             else:
                 logging.info("Ссылка на отклик отсутствует.")
-
-            # Проверяем наличие кнопки контактов
-            contact_buttons = driver.find_elements(By.CSS_SELECTOR,
-                                                   '[data-qa="show-employer-contacts '
-                                                   'show-employer-contacts_top-button"]')
-            if contact_buttons:
-                logging.info("Кнопка контактов найдена")
-                try:
-                    # contact_button.click() так почему-то не работает) только клик через js
-                    driver.execute_script("arguments[0].click();", contact_buttons[0])
-                    logging.info("Клик по контактам выполнен ")
-                    # driver.save_screenshot("headless_contacts_debug.png") че-то скриншотил)
-
-                    # Ждём появления блока контактов
-                    WebDriverWait(driver, 15).until(
-                        EC.presence_of_element_located(
-                            (By.CSS_SELECTOR, '[data-qa="vacancy-contacts-drop__phone-card"]'))
-                    )
-                    logging.info('карточка с данными успешно загружена, собираем контакты')
-
-                    # Собираем телефоны
-                    phone_elements = driver.find_elements(By.CSS_SELECTOR, 'a[href^="tel:"]')
-                    logging.info(f'найденно: {len(phone_elements)}  телефонов.)')
-                    if phone_elements:
-                        phone_number = phone_elements[0].get_attribute('href').replace('tel:', '').strip()
-                        logging.info(f'Телефон: {phone_number}')
-                    else:
-                        logging.info('Телефон не найден')
-
-                    # Собираем email
-                    email_elements = driver.find_elements(By.CSS_SELECTOR, 'a[href^="mailto:"]')
-                    logging.info(f'Найдено {len(email_elements)} email-адресов.')
-                    if email_elements:
-                        email_contact = email_elements[0].get_attribute('href').replace('mailto:', '').strip()
-                        logging.info(f'Email: {email_contact}')
-                    else:
-                        logging.info('Email не найден')
-
-                    # Проверка на полное отсутствие
-                    if not phone_elements and not email_elements:
-                        logging.info("Контакты отсутствуют полностью (телефон и email)")
-
-                except Exception as e:
-                    logging.warning(f"Не удалось получить контакты: {str(e).splitlines()[0]}")
 
         # Обрабатываем дату публикации
         month_mapping = {
@@ -122,8 +76,7 @@ def parse_vacancy(driver, url, auth):
         logging.info(f'Обработана вакансия: Заголовок {title}, Зарплата: {salary}, Опыт: {experience}, '
                      f'Общая занятость: {common_employment}, График: {works_schedule}, '
                      f'Рабочие часы: {working_hours}, Формат работы: {work_formats}, '
-                     f'Дата публикации: {date}, Телефон:  {phone_number}, '
-                     f'Email: {email_contact}, Откликнуться на вакансию: {response_link} .')
+                     f'Дата публикации: {date}, Откликнуться на вакансию: {response_link} .')
 
         return {
             'title': title,
@@ -137,8 +90,6 @@ def parse_vacancy(driver, url, auth):
             'date': date,
             'url': url,
             'response_link': response_link,
-            'phone_number': phone_number,
-            'email_contact': email_contact,
         }
 
     except TimeoutException:

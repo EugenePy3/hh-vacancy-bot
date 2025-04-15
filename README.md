@@ -15,7 +15,7 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/your_username/hh_parser.git
+   git clone https://github.com/EugenePy3/hh_parser.git
    cd hh_parser
 
 2. Создайте и активируйте виртуальное окружение:
@@ -23,7 +23,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 3. Установите зависимости:
-pip install -r requirements1.txt
+pip install -r requirements.txt
 
 4. Создайте файл .env в директории scraper/ со своими настройками:
 LOGIN=your_login
@@ -35,7 +35,7 @@ CHAT_ID=your_chat_id
 python main.py
 
 ## 📁 Структура проекта
-
+```markdown
 ├── main.py                 — точка входа
 ├── auth/
 │   └── login.py            — авторизация
@@ -56,6 +56,7 @@ python main.py
 ├── vacancies_1.csv         — сохранённые вакансии
 ├── requirements1.txt       — зависимости
 └── README.md               — документация
+```
 
 Используется:
     selenium
@@ -63,7 +64,8 @@ python main.py
     python-dotenv
     aiogram
 
-.gitignore
+## . gitignore
+```
 venv/
 __pycache__/
 *.pyc
@@ -73,7 +75,9 @@ __pycache__/
 *.log
 vacancies_*.csv
 ranked_vacancies_*.csv
-
+```
  Автор:
     Сделано с упорством и мечтой стать разработчиком 🙌
     Eugene 😻
+
+hh-vacancy-bot
